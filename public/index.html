@@ -108,26 +108,44 @@
         }
         .cap.tampil { opacity: 0.85; }
     </style>
-
-
 </head>
 <body>
-    <h3>PWS Praktikum Pertemuan 3</h3>
-    <h3>Nama: Danisha Novira Rausyanfikri</h3>
-    <h3>NIM: 20240140138</h3>
+    <div class="tiket">
+        <h1>PWS Praktikum Pertemuan 3</h1>
+        <div class="identitas">
+            Nama: Danisha Novira Rausyanfikri<br>
+            NIM: 20240140138
+        </div>
 
-    <input type="text" id="kota" placeholder="Masukkan nama kota">
-    <button onclick="cari()">Cari</button>
+        <div class="cari">
+            <label for="kota">LOKASI:</label>
+            <input type="text" id="kota" placeholder="ketik nama kota">
+            <button onclick="cari()">CARI</button>
+        </div>
 
-    <p>Negara: <span id="negara"></span></p>
-    <p>Provinsi: <span id="provinsi"></span></p>
-    <p>Kecematan: <span id="kecematan"></span></p>
-    <p>Longitude: <span id="longitude"></span></p>
-    <p>Latitude: <span id="latitude"></span></p>
+        <div class="baris"><span class="nama">Negara</span><span class="titik"></span><span class="isi" id="negara">-</span></div>
+        <div class="baris"><span class="nama">Provinsi</span><span class="titik"></span><span class="isi" id="provinsi">-</span></div>
+        <div class="baris"><span class="nama">Kecamatan</span><span class="titik"></span><span class="isi" id="kecematan">-</span></div>
+        <div class="baris"><span class="nama">Longitude</span><span class="titik"></span><span class="isi" id="longitude">-</span></div>
+        <div class="baris"><span class="nama">Latitude</span><span class="titik"></span><span class="isi" id="latitude">-</span></div>
+
+        <div class="kaki">
+            <span class="cap" id="cap"></span>
+        </div>
+    </div>
 
     <script>
+        function isi(id, nilai) {
+            document.getElementById(id).textContent = nilai;
+        }
+
         async function cari() {
-            const kota = document.getElementById("kota").value;
+            const kota = document.getElementById("kota").value.trim();
+            const cap = document.getElementById("cap");
+
+            if (!kota) return;
+
+            cap.classList.remove("tampil");
 
             try {
                 const response = await fetch("/api/lokasi?kota=" + encodeURIComponent(kota));
@@ -138,15 +156,22 @@
                     return;
                 }
 
-                document.getElementById("negara").innerHTML = data.negara;
-                document.getElementById("provinsi").innerHTML = data.provinsi;
-                document.getElementById("kecematan").innerHTML = data.kecematan;
-                document.getElementById("longitude").innerHTML = data.longitude;
-                document.getElementById("latitude").innerHTML = data.latitude;
+                isi("negara", data.negara);
+                isi("provinsi", data.provinsi);
+                isi("kecematan", data.kecematan);
+                isi("longitude", data.longitude);
+                isi("latitude", data.latitude);
+
+                cap.textContent = kota.toUpperCase();
+                cap.classList.add("tampil");
             } catch (error) {
                 console.error(error);
             }
         }
+
+        document.getElementById("kota").addEventListener("keydown", function (e) {
+            if (e.key === "Enter") cari();
+        });
     </script>
 </body>
 </html>
