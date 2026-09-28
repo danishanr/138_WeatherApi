@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geolocation</title>
+</head>
+<body>
+    <h3>PWS Praktikum Pertemuan 3</h3>
+    <h3>Nama: Danisha Novira Rausyanfikri</h3>
+    <h3>NIM: 20240140138</h3>
+
+    <input type="text" id="kota" placeholder="Masukkan nama kota">
+    <button onclick="cari()">Cari</button>
+
+    <p>Negara: <span id="negara"></span></p>
+    <p>Provinsi: <span id="provinsi"></span></p>
+    <p>Kecematan: <span id="kecematan"></span></p>
+    <p>Longitude: <span id="longitude"></span></p>
+    <p>Latitude: <span id="latitude"></span></p>
+
+    <script>
+        async function cari() {
+            const kota = document.getElementById("kota").value;
+
+            try {
+                const response = await fetch("/api/lokasi?kota=" + encodeURIComponent(kota));
+                const data = await response.json();
+
+                if (!response.ok) {
+                    alert(data.message);
+                    return;
+                }
+
+                document.getElementById("negara").innerHTML = data.negara;
+                document.getElementById("provinsi").innerHTML = data.provinsi;
+                document.getElementById("kecematan").innerHTML = data.kecematan;
+                document.getElementById("longitude").innerHTML = data.longitude;
+                document.getElementById("latitude").innerHTML = data.latitude;
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    </script>
+</body>
+</html>
