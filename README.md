@@ -4,6 +4,7 @@ Aplikasi web sederhana untuk mencari lokasi dan menampilkan negara,
 provinsi, kecamatan, longitude, dan latitude dari MapTiler Geocoding API.
 
 Nama: Danisha Novira Rausyanfikri
+<br>
 NIM: 20240140138
 
 ## Cara Menjalankan
